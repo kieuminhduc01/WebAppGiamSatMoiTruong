@@ -13,6 +13,14 @@ namespace WebAppGiamSatMoiTruong.Models
         {
 
         }
+
+        public GiamSatMoiTruongDbContext()
+        {
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+    => options.UseSqlite("DataSource=GS.db");
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new Account_RoleConfig());

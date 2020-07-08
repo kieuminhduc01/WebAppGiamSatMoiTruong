@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebAppGiamSatMoiTruong.Models;
 
 namespace WebAppGiamSatMoiTruong
 {
@@ -24,6 +25,8 @@ namespace WebAppGiamSatMoiTruong
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddTransient<GiamSatMoiTruongDbContext, GiamSatMoiTruongDbContext>();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
