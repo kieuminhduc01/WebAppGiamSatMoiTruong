@@ -22,18 +22,18 @@ var KTDatatablesDataSourceAjaxServer = function () {
 				},*/
 			},
 			columns: [
-				{ data: 'userName', name: "Username" },
-				{ data: 'fullName' },
-				{ data: 'dob' },
-				{ data: 'email' },
-				{ data: 'phoneNumber' },
+				{ data: 'userName', name: "UserName" },
+				{ data: 'fullName', name: "FullName" },
+				{ data: 'dob', name: "DOB"},
+				{ data: 'email', name: "Email" },
+				{ data: 'phoneNumber',name:"PhoneNumber" },
 				/*{ data: 'Status' },*/
 				{ data: 'actions', responsivePriority: -1 },
 			],
 			columnDefs: [
 				{
 					targets: -1,
-					title: 'actions',
+					title: 'Actions',
 					orderable: false,
 					render: function (data, type, full, meta) {
 						return '\
@@ -57,7 +57,14 @@ var KTDatatablesDataSourceAjaxServer = function () {
 							</a>\
 						';
 					},
-				},
+				}, {
+					targets: -4,
+					title: 'DOB',
+					orderable: true,
+					render: function (data, type, full, meta) {
+						return data.substr(0, 10);
+					},
+				}
 				/*{
 					width: '75px',
 					targets: -3,

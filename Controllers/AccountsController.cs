@@ -69,55 +69,60 @@ namespace WebAppGiamSatMoiTruong.Controllers
             try
             {
 
-                /*  int length = int.Parse(HttpContext.Session.GetString("length"));
-                  int start = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(int.Parse(HttpContext.Session.GetString("start")) / length))) + 1;
-                  string searchValue = HttpContext.Session.GetString("search[value]");
-                  string sortColumnName = HttpContext.Session.GetString("columns[" + HttpContext.Session.GetString("order[0][column]") + "][name]");
-                  string sortDirection = HttpContext.Session.GetString("order[0][dir]");
+                int length = int.Parse(Request.Query["length"]);
+                int start = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(int.Parse(Request.Query["start"]) / length))) + 1;
+                string searchValue = Request.Query["search[value]"];
+                string sortColumnName = Request.Query["columns[" + Request.Query["order[0][column]"] + "][name]"];
+                string sortDirection = Request.Query["order[0][dir]"];
 
-                  AccountPaging apg = new AccountPaging();
-                  apg.data = new List<AccountShow>();
-                  start = (start - 1) * length;
-                  List<Account> listAccount = _context.Account.ToList<Account>();
-                  apg.recordsTotal = listAccount.Count;
-                  //filter
-                  if (!string.IsNullOrEmpty(searchValue))
-                  {
-                      listAccount = listAccount.Where(x => x.UserName.ToLower().Contains(searchValue.ToLower()) ||
-                          x.Email.ToLower().Contains(searchValue.ToLower()) ||
-                          x.FullName.ToLower().Contains(searchValue.ToLower()) ||
-                          x.PhoneNumber.ToLower().Contains(searchValue.ToLower())
-                      ).ToList<Account>();
-                  }
-                  //sorting
-                  if (sortColumnName.Equals("Role"))
-                  {
-                      //sort UTF 8
-                      sortColumnName = "RoleID";
-                  }
-                  *//*listAccount = listAccount.OrderBy(sortColumnName + " " + sortDirection).ToList<Account>();*//*
-                  //}
-                  apg.recordsFiltered = listAccount.Count;
-                  //paging
-                  listAccount = listAccount.Skip(start).Take(length).ToList<Account>();*/
-                List<Account> li = _context.Accounts.ToList();
-                List<AccountShow> list = new List<AccountShow>();
-                for (int i = 0; i < li.Count(); i++)
+                AccountPaging apg = new AccountPaging();
+                apg.data = new List<AccountShow>();
+                start = (start - 1) * length;
+                List<Account> listAccount = _context.Accounts.ToList<Account>();
+                apg.recordsTotal = listAccount.Count;
+                //filter
+                if (!string.IsNullOrEmpty(searchValue))
+                {
+                    listAccount = listAccount.Where(x => x.UserName.ToLower().Contains(searchValue.ToLower()) ||
+                        x.Email.ToLower().Contains(searchValue.ToLower()) ||
+                        x.FullName.ToLower().Contains(searchValue.ToLower()) ||
+                        x.PhoneNumber.ToLower().Contains(searchValue.ToLower())
+                    ).ToList<Account>();
+                }
+                //sorting
+                if (sortColumnName.Equals("Role"))
+                {
+                    //sort UTF 8
+                    sortColumnName = "RoleID";
+                }
+                if (sortDirection == "asc")
+                {
+                    listAccount = listAccount.OrderBy(x => x.GetType().GetProperty(sortColumnName).GetValue(x)).Skip(start).Take(length).ToList<Account>();
+                }
+                else
+                {
+                    listAccount = listAccount.OrderByDescending(x => x.GetType().GetProperty(sortColumnName).GetValue(x)).Skip(start).Take(length).ToList<Account>();
+                }
+                apg.recordsFiltered = listAccount.Count;
+                //paging
+                /*listAccount = listAccount.Skip(start).Take(length).ToList<Account>();*/
+                apg.data = new List<AccountShow>();
+                for (int i = 0; i < listAccount.Count(); i++)
                 {
                     AccountShow acs = new AccountShow
                     {
 
-                        UserName = li[i].UserName,
-                        FullName = li[i].FullName,
-                        PhoneNumber = li[i].PhoneNumber,
-                        Email = li[i].Email,
-                        Dob = li[i].DOB,
+                        UserName = listAccount[i].UserName,
+                        FullName = listAccount[i].FullName,
+                        PhoneNumber = listAccount[i].PhoneNumber,
+                        Email = listAccount[i].Email,
+                        Dob = listAccount[i].DOB,
                         Actions = ""
                     };
-                    list.Add(acs);
+                    apg.data.Add(acs);
                 }
-                /* apg.draw = int.Parse(HttpContext.Session.GetString("draw"));*/
-                return Json(new { data = list });
+                apg.draw = int.Parse(Request.Query["draw"]);
+                return Json(apg);
             }
             catch (Exception ex)
             {
