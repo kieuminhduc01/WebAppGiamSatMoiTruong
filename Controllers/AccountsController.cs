@@ -68,7 +68,6 @@ namespace WebAppGiamSatMoiTruong.Controllers
         {
             try
             {
-
                 int length = int.Parse(Request.Query["length"]);
                 int start = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(int.Parse(Request.Query["start"]) / length))) + 1;
                 string searchValue = Request.Query["search[value]"];
@@ -97,15 +96,15 @@ namespace WebAppGiamSatMoiTruong.Controllers
                 }
                 if (sortDirection == "asc")
                 {
-                    listAccount = listAccount.OrderBy(x => x.GetType().GetProperty(sortColumnName).GetValue(x)).Skip(start).Take(length).ToList<Account>();
+                    listAccount = listAccount.OrderBy(x => x.GetType().GetProperty(sortColumnName).GetValue(x)).ToList<Account>();
                 }
                 else
                 {
-                    listAccount = listAccount.OrderByDescending(x => x.GetType().GetProperty(sortColumnName).GetValue(x)).Skip(start).Take(length).ToList<Account>();
+                    listAccount = listAccount.OrderByDescending(x => x.GetType().GetProperty(sortColumnName).GetValue(x)).ToList<Account>();
                 }
                 apg.recordsFiltered = listAccount.Count;
                 //paging
-                /*listAccount = listAccount.Skip(start).Take(length).ToList<Account>();*/
+                listAccount = listAccount.Skip(start).Take(length).ToList<Account>();
                 apg.data = new List<AccountShow>();
                 for (int i = 0; i < listAccount.Count(); i++)
                 {

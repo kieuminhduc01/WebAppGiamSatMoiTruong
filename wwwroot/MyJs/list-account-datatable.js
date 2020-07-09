@@ -11,7 +11,7 @@ var KTDatatablesDataSourceAjaxServer = function () {
 			processing: true,
 			serverSide: true,
 			ajax: {
-				url: "/Accounts/getAllUser",
+				url: "Accounts/getAllUser",
 				type: 'GET'/*,
 				data: {
 					// parameters for custom backend script demo
