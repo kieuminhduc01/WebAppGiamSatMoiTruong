@@ -13,25 +13,9 @@ namespace WebAppGiamSatMoiTruong.Controllers
     public class AccountsController : Controller
     {
         private GiamSatMoiTruongDbContext _context;
-
         public AccountsController(GiamSatMoiTruongDbContext context)
         {
             _context = context;
-            /*for(int i = 0; i <= 20; i++)
-            {
-                Account acc = new Account()
-                {
-                    UserName = "Stringyyyy" + i,
-                    Password = "123",
-                    FullName = "Quan ML" + i,
-                    DOB = DateTime.Now,
-                    Email = "QuanML" + i + "@gmail.com",
-                    PhoneNumber = "123123",
-                    Active = true
-                };
-                _context.Accounts.Add(acc);
-                _context.SaveChanges();
-            }*/
         }
 
         // GET: Accounts
@@ -68,45 +52,12 @@ namespace WebAppGiamSatMoiTruong.Controllers
         {
             try
             {
-
-                /*  int length = int.Parse(HttpContext.Session.GetString("length"));
-                  int start = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(int.Parse(HttpContext.Session.GetString("start")) / length))) + 1;
-                  string searchValue = HttpContext.Session.GetString("search[value]");
-                  string sortColumnName = HttpContext.Session.GetString("columns[" + HttpContext.Session.GetString("order[0][column]") + "][name]");
-                  string sortDirection = HttpContext.Session.GetString("order[0][dir]");
-
-                  AccountPaging apg = new AccountPaging();
-                  apg.data = new List<AccountShow>();
-                  start = (start - 1) * length;
-                  List<Account> listAccount = _context.Account.ToList<Account>();
-                  apg.recordsTotal = listAccount.Count;
-                  //filter
-                  if (!string.IsNullOrEmpty(searchValue))
-                  {
-                      listAccount = listAccount.Where(x => x.UserName.ToLower().Contains(searchValue.ToLower()) ||
-                          x.Email.ToLower().Contains(searchValue.ToLower()) ||
-                          x.FullName.ToLower().Contains(searchValue.ToLower()) ||
-                          x.PhoneNumber.ToLower().Contains(searchValue.ToLower())
-                      ).ToList<Account>();
-                  }
-                  //sorting
-                  if (sortColumnName.Equals("Role"))
-                  {
-                      //sort UTF 8
-                      sortColumnName = "RoleID";
-                  }
-                  *//*listAccount = listAccount.OrderBy(sortColumnName + " " + sortDirection).ToList<Account>();*//*
-                  //}
-                  apg.recordsFiltered = listAccount.Count;
-                  //paging
-                  listAccount = listAccount.Skip(start).Take(length).ToList<Account>();*/
                 List<Account> li = _context.Accounts.ToList();
                 List<AccountShow> list = new List<AccountShow>();
                 for (int i = 0; i < li.Count(); i++)
                 {
                     AccountShow acs = new AccountShow
                     {
-
                         UserName = li[i].UserName,
                         FullName = li[i].FullName,
                         PhoneNumber = li[i].PhoneNumber,
@@ -119,7 +70,7 @@ namespace WebAppGiamSatMoiTruong.Controllers
                 /* apg.draw = int.Parse(HttpContext.Session.GetString("draw"));*/
                 return Json(new { data = list });
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }

@@ -22,17 +22,16 @@ var KTDatatablesDataSourceAjaxServer = function () {
 				},*/
 			},
 			columns: [
-				{ data: 'userName', name: "Username" },
-				{ data: 'fullName' },
+				{ data: 'userName', name: "User name" },
+				{ data: 'fullName'},
 				{ data: 'dob' },
 				{ data: 'email' },
 				{ data: 'phoneNumber' },
-				/*{ data: 'Status' },*/
-				{ data: 'actions', responsivePriority: -1 },
+				{ data: 'actions', responsive:-1 },
 			],
 			columnDefs: [
 				{
-					targets: -1,
+					targets :-1,
 					title: 'actions',
 					orderable: false,
 					render: function (data, type, full, meta) {
@@ -58,25 +57,14 @@ var KTDatatablesDataSourceAjaxServer = function () {
 						';
 					},
 				},
-				/*{
-					width: '75px',
-					targets: -3,
+				{
+					targets: -4,
+					title: 'Ngày sinh',
+					orderable: false,
 					render: function (data, type, full, meta) {
-						var status = {
-							1: { 'title': 'Pending', 'class': 'label-light-primary' },
-							2: { 'title': 'Delivered', 'class': ' label-light-danger' },
-							3: { 'title': 'Canceled', 'class': ' label-light-primary' },
-							4: { 'title': 'Success', 'class': ' label-light-success' },
-							5: { 'title': 'Info', 'class': ' label-light-info' },
-							6: { 'title': 'Danger', 'class': ' label-light-danger' },
-							7: { 'title': 'Warning', 'class': ' label-light-warning' },
-						};
-						if (typeof status[data] === 'undefined') {
-							return data;
-						}
-						return '<span class="label label-lg font-weight-bold' + status[data].class + ' label-inline">' + status[data].title + '</span>';
+						return data.substr(0,10);
 					},
-				},*/
+                }
 			],
 		});
 	};
